@@ -23,11 +23,21 @@ function parseTransaction(message) {
   }
 
   const rawMessage = message.trim();
-  const provider = detectProvider(rawMessage);
+  
+const provider = detectProvider(rawMessage);
 
-  if (!provider) {
-    throw new Error("Could not identify the payment provider");
-  }
+if (!provider) {
+  throw new Error("Could not identify the payment provider");
+}
+
+// Require an incoming-payment phrase before extracting fields.
+const incomingPayment =
+  /you have received\s+ETB\s*[\d,]+(?:\.\d{1,2})?/i.test(rawMessage);
+
+if (!incomingPayment) {
+  throw new Error("Message is not a recognized incoming payment");
+}
+
 
   let amount;
   let sender = "Unknown";
