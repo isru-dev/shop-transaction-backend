@@ -52,7 +52,15 @@ if (!incomingPayment) {
     const senderMatch = rawMessage.match(
       /from\s+account\b.*?\(([^)]+)\)\s+to your account/i
     );
+const receiptMatch = rawMessage.match(
+  /https?:\/\/mbreciept\.cbe\.com\.et\/[^\s)]+/i
+);
 
+if (receiptMatch) {
+  reference = receiptMatch[0]
+    .replace(/[.,]+$/, "")
+    .trim();
+}
     if (!amountMatch) {
       throw new Error("Could not extract the CBE received amount");
     }
@@ -127,3 +135,4 @@ module.exports = {
   detectProvider,
   parseTransaction,
 };
+

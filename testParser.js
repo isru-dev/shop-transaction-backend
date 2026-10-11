@@ -19,5 +19,3 @@ for (const message of rejectedMessages) {
   }
 }
 
-
-
