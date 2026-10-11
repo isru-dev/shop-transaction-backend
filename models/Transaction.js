@@ -23,13 +23,13 @@ const transactionSchema = new mongoose.Schema(
 
     reference: {
       type: String,
-      required: true,
+      default: null,
       trim: true,
     },
 
     transactionDate: {
       type: Date,
-      required: true,
+      default: null,
     },
 
     rawMessage: {
@@ -47,10 +47,15 @@ const transactionSchema = new mongoose.Schema(
   }
 );
 
-// Prevent the same provider transaction from being saved twice.
+// Only enforce uniqueness when a reference exists.
 transactionSchema.index(
   { provider: 1, reference: 1 },
-  { unique: true }
+  {
+    unique: true,
+    partialFilterExpression: {
+      reference: { $type: "string" },
+    },
+  }
 );
 
 module.exports = mongoose.model("Transaction", transactionSchema);
