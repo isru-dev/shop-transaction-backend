@@ -3,7 +3,7 @@ require("dotenv").config();
 
 const express = require("express");
 const connectDB = require("./config/db");
-
+const transactionRoutes = require("./routes/transactionWebhook");
 const app = express();
 
 app.use(express.json());
@@ -14,7 +14,7 @@ app.get("/health", (req, res) => {
     message: "Shop transaction backend is running",
   });
 });
-
+app.use("/api", transactionRoutes);
 async function startServer() {
   await connectDB();
 

@@ -15,3 +15,4 @@ for (const message of [cbeMessage, telebirrMessage]) {
     console.error("Parsing failed:", error.message);
   }
 }
+
